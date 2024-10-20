@@ -71,7 +71,9 @@ with open(outfname, "w") as outf:
     outf.write("\t/* Ignore everything besides (...)_ENTRY for now */\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_SECCOMP:\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_NONE:\n")
+    outf.write("\t\tbreak;\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_EXIT:\n")
+    outf.write('\t\tprintf(" = %llu%s\\n", info->exit.rval, info->exit.is_error ? " (error)" : "");\n')
     outf.write("\t\tbreak;\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_ENTRY:\n")
     outf.write("\t\tswitch (info->entry.nr)\n")
@@ -88,7 +90,7 @@ with open(outfname, "w") as outf:
             outf.write(fmt)
             if index < len(sig) - 1:
                 outf.write(", ")
-        outf.write(')\\n"')
+        outf.write(')"')
         for index, arg in enumerate(sig):
             type, _ = get_fmtspec(arg)
             argstr = bitcast(type, f"info->entry.args[{index}]")
