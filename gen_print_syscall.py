@@ -18,7 +18,7 @@ def get_fmtspec(decl):
     void = 'void' in decl
     size_t = 'size_t' in decl
     long = 'long' in decl
-    long_long = 'long_long' in decl
+    long_long = 'long long' in decl
     unsigned = 'unsigned' in decl
     struct = 'struct' in decl
     _ = const
