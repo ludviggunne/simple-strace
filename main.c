@@ -151,7 +151,6 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 			}
 			break;
 		}
-		// TODO: more custom printing
 	case SYS_openat:
 		{
 			int dirfd = info->entry.args[0];
@@ -161,6 +160,16 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 			assert(str);
 			printf(YELLOW "openat" RESET "(%d, " GREEN "\"%s\""
 			       RESET ", %d, ...)", dirfd, str, flags);
+			break;
+		}
+	case SYS_access:
+		{
+			unsigned long long addr = info->entry.args[0];
+			int mode = info->entry.args[1];
+			const char *str = peek_tracee_string(pid, addr, -1);
+			assert(str);
+			printf(YELLOW "access" RESET "(" GREEN "\"%s\"" RESET
+			       ", %d)", str, mode);
 			break;
 		}
 	default:
