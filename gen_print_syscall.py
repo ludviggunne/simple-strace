@@ -6,6 +6,12 @@ import json
 import requests
 import os
 
+RED = "\x1b[31m"
+GREEN = "\x1b[32m"
+YELLOW = "\x1b[33m"
+BLUE = "\x1b[34m"
+RESET = "\x1b[0m"
+
 def bitcast(type, value):
     return f"*({type}*)&{value}"
 
@@ -25,7 +31,7 @@ def get_fmtspec(decl):
     # if char and ptr:
     #     return ("const char *", '\\"%10.s\\"')
     if void or ptr or struct:
-        return ("void*", "%p")
+        return ("void*", f"{BLUE}%p{RESET}")
     if size_t:
         return ("size_t", "%zu")
     if int:
@@ -73,7 +79,7 @@ with open(outfname, "w") as outf:
     outf.write("\tcase PTRACE_SYSCALL_INFO_NONE:\n")
     outf.write("\t\tbreak;\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_EXIT:\n")
-    outf.write('\t\tprintf(" = %llu%s\\n", info->exit.rval, info->exit.is_error ? " (error)" : "");\n')
+    outf.write(f'\t\tprintf(" = %llu%s\\n", info->exit.rval, info->exit.is_error ? " ({RED}error{RESET})" : "");\n')
     outf.write("\t\tbreak;\n")
     outf.write("\tcase PTRACE_SYSCALL_INFO_ENTRY:\n")
     outf.write("\t\tswitch (info->entry.nr)\n")
@@ -84,7 +90,7 @@ with open(outfname, "w") as outf:
         nr = syscall["number"]
         sig = syscall["signature"]
         nargs = len(sig)
-        outf.write(f'\t\tcase {nr}: printf("{name}(')
+        outf.write(f'\t\tcase {nr}: printf("{YELLOW}{name}{RESET}(')
         for index, arg in enumerate(sig):
             _, fmt = get_fmtspec(arg)
             outf.write(fmt)
