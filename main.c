@@ -50,19 +50,21 @@ int main(int argc, char **argv)
 
 void child(char **args)
 {
-	if (ptrace(PTRACE_TRACEME, 0, NULL, NULL) < 0) {
-		perror("ptrace(PTRACE_TRACEME, ...)");
-		exit(1);
-	}
-
-	/* Can't write to stdout for some reason */
-	int fd = open("/dev/null", O_WRONLY);
+	int fd = open("/dev/null", O_RDWR);
 	if (fd < 0) {
 		perror("open");
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
 	dup2(fd, STDERR_FILENO);
+	dup2(fd, STDIN_FILENO);
+
+	if (ptrace(PTRACE_TRACEME, 0, NULL, NULL) < 0) {
+		perror("ptrace(PTRACE_TRACEME, ...)");
+		exit(1);
+	}
+
+	/* Can't write to stdout for some reason */
 	if (execvp(args[0], args) < 0) {
 		perror("execvp");
 		exit(1);
