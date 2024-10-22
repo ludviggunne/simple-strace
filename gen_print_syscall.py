@@ -20,12 +20,12 @@ def get_fmtspec(decl):
     ptr = '*' in decl
     char = 'char' in decl
     const = 'const' in decl
-    int = 'int' in decl
     void = 'void' in decl
     size_t = 'size_t' in decl
     long = 'long' in decl
     long_long = 'long long' in decl
     unsigned = 'unsigned' in decl
+    int = 'int' in decl or 'signed' in decl or long or unsigned
     struct = 'struct' in decl
     _ = const
     # if char and ptr:
@@ -45,7 +45,7 @@ def get_fmtspec(decl):
         else:
             fmt += "d"
         return (type, fmt)
-    return ("void*", "%p")
+    return ("void*", f"{BLUE}%p{RESET}")
 
 if len(sys.argv) < 3:
     print(f"usage: {sys.argv[0]} <url> <output>")
