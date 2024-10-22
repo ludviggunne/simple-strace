@@ -1,5 +1,5 @@
 CC=gcc
-CFKAGS?=
+CFLAGS?=
 CFLAGS+=-Wall -Wextra -Wpedantic
 LDFLAGS=
 
