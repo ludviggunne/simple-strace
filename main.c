@@ -182,7 +182,7 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 }
 
 typedef unsigned long long word_t;
-#define STR_BUF_WORD_COUNT 6
+#define STR_BUF_WORD_COUNT 8
 const char *peek_tracee_string(pid_t pid, unsigned
 			       long long addr, int len)
 {
