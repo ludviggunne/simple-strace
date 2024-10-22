@@ -144,11 +144,11 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 			const char *str = peek_tracee_string(pid, addr, length);
 			if (str) {
 				printf(YELLOW "write" RESET "(%d, " GREEN
-				       "\"%s\"" RESET ", %zu)", fd, str,
+				       "\"%s\"" RESET ", %zu)\n", fd, str,
 				       length);
 			} else {
 				printf(YELLOW "write" RESET "(%d, " BLUE "%p"
-				       RESET ", %zu)", fd, (void *)addr,
+				       RESET ", %zu)\n", fd, (void *)addr,
 				       length);
 			}
 			break;
@@ -161,7 +161,7 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 			const char *str = peek_tracee_string(pid, addr, -1);
 			assert(str);
 			printf(YELLOW "openat" RESET "(%d, " GREEN "\"%s\""
-			       RESET ", %d, ...)", dirfd, str, flags);
+			       RESET ", %d, ...)\n", dirfd, str, flags);
 			break;
 		}
 	case SYS_access:
@@ -171,7 +171,7 @@ int custom_print_ptrace_syscall_info(pid_t pid, struct
 			const char *str = peek_tracee_string(pid, addr, -1);
 			assert(str);
 			printf(YELLOW "access" RESET "(" GREEN "\"%s\"" RESET
-			       ", %d)", str, mode);
+			       ", %d)\n", str, mode);
 			break;
 		}
 	default:
