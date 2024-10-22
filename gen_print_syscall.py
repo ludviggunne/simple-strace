@@ -6,11 +6,11 @@ import json
 import requests
 import os
 
-RED = "\x1b[31m"
-GREEN = "\x1b[32m"
-YELLOW = "\x1b[33m"
-BLUE = "\x1b[34m"
-RESET = "\x1b[0m"
+RED = "\\x1b[31m"
+GREEN = "\\x1b[32m"
+YELLOW = "\\x1b[33m"
+BLUE = "\\x1b[34m"
+RESET = "\\x1b[0m"
 
 def bitcast(type, value):
     return f"*({type}*)&{value}"
