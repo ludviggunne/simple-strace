@@ -13,6 +13,13 @@
 
 #include "print_syscall.h"
 
+int num_syscalls = 0;
+
+void report_num_sycalls(void)
+{
+	printf("%d syscalls\n", num_syscalls);
+}
+
 void child(char **args);
 void parent(pid_t pid);
 void my_wait(pid_t pid);
@@ -37,6 +44,7 @@ int main(int argc, char **argv)
 		child(&argv[1]);
 	}
 
+	atexit(report_num_sycalls);
 	parent(pid);
 }
 
@@ -81,6 +89,10 @@ void parent(pid_t pid)
 		    (PTRACE_GET_SYSCALL_INFO, pid, sizeof(info), &info) < 0) {
 			perror("ptrace(PTRACE_GET_SYSCALL_INFO, ...)");
 			exit(1);
+		}
+
+		if (info.op == PTRACE_SYSCALL_INFO_ENTRY) {
+			num_syscalls++;
 		}
 
 		if (!custom_print_ptrace_syscall_info(pid, &info)) {
